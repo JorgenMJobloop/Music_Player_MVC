@@ -1,10 +1,38 @@
 using MVC.Models;
+using MVC.Services;
 using Spectre.Console;
 
 namespace MVC.Views;
 
+// create a enum for screen mode
+public enum ScreenMode { Library = 0, RecentlyPlayed = 1, Playlists = 2 }
+
 public sealed class ConsoleView
 {
+
+
+    public void Render(ScreenMode mode,
+    PlayerState state,
+    string libraryFolder,
+    string searchText,
+    TrackSortMode sortMode,
+    IReadOnlyList<Track> visibleTracks,
+    int selectedSongIndex,
+    IReadOnlyList<string> recentlyPlayed,
+    IReadOnlyCollection<string> playlistNames
+    )
+    {
+        AnsiConsole.Clear();
+
+        var header = new Panel(
+            $"[bold]KH Music Player CLI[/]\n" +
+            $"Folder: [grey]{Escape(libraryFolder)}[/]\n" +
+            $""
+        ).Border(BoxBorder.Rounded).Header("");
+    }
+
+
+
     public void Render(IReadOnlyList<Track> tracks, PlayerState state, int selectedSongIndex)
     {
         AnsiConsole.Clear();
@@ -29,5 +57,10 @@ public sealed class ConsoleView
 
         AnsiConsole.Write(table);
         AnsiConsole.MarkupLine("\n[dim]KeyUp/KeyDown: Choose song. Enter: Play S: stop Q: quit[/]");
+    }
+
+    private static string Escape(string arg)
+    {
+        return arg;
     }
 }
